@@ -134,10 +134,10 @@ test_stat, pvalue = proportions_ztest(count=[df.loc[df["NEW_CABIN_BOOL"] == 1, "
                                       nobs=[df.loc[df["NEW_CABIN_BOOL"] == 1, "Survived"].shape[0],         # Gozlenme frekanslari; Kabin numarasi olanlar kac kisi?
                                             df.loc[df["NEW_CABIN_BOOL"] == 0, "Survived"].shape[0]])        # Kabin numarasi olmayanlar kac kisi?
 
-print('Test Stat = %.4f, p-value = %.4f' % (test_stat, pvalue))
+print('Test Stat = %.4f, p-value = %.4f' % (test_stat, pvalue))          # Test stat ve p-value degerlerini gorduk.
 
-# Ho: İkisi arasinda fark yoktur,
-# p-value degeri 0,05'den kucuk oldugundan dolayi reddedilir. Yani aralarinda istatistiki olarak anlamli bir fark vardir.
+# Ho: İkisi arasinda fark yoktur. (Ho, ya reddedilir ya reddedilmez; kabul edilme durumu yoktur!)
+# p-value degeri 0,05'den kucuk oldugundan dolayi Ho reddedilir. Yani aralarinda istatistiki olarak anlamli bir fark vardir.
 # Cok degiskenli etkiyi bilmedigimden; cabin degiskeni benim icin cok onemlidir genellemesini yapamiyorum.
 
 # 'SibSp' ve 'Parch': Gemideki akrabaliklari ifade eden degiskenler;
@@ -148,7 +148,7 @@ df.groupby("NEW_IS_ALONE").agg({"Survived": "mean"})                    # Surviv
 # Aralarinda bir fark var gibi gorunuyor.
 
 
-# Hipotez testi yaparsak; Bu anlamlı bir fark mı?
+# Hipotez testi yaparsak; Bu anlamli bir fark mi?
 test_stat, pvalue = proportions_ztest(count=[df.loc[df["NEW_IS_ALONE"] == "YES", "Survived"].sum(),
                                              df.loc[df["NEW_IS_ALONE"] == "NO", "Survived"].sum()],
 
@@ -181,20 +181,20 @@ df["NEW_NAME_WORD_COUNT"] = df["Name"].apply(lambda x: len(str(x).split(" ")))
 # Ozel Yapilari Yakalamak
 
 # "Dr" ifadesine sahip olanlari yakalamak istersek;
-df["NEW_NAME_DR"] = df["Name"].apply(lambda x: len([x for x in x.split() if x.startswith("Dr")]))
+df["NEW_NAME_DR"] = df["Name"].apply(lambda x: len([x for x in x.split() if x.startswith("Dr.")]))
+# "Dr." yaptik ismi "Dr" ile baslayanlari elemek icin. :)
 # x.split(): ilgili satiri split et; Her bir deger liste olarak erisilebilir olacak.
 # for x in: Bunlarda gez
-# [x... if x.startswith("Dr"): Eger gezdigin ifadelerin basinda "Dr" ifadesi varsa bunu sec(x)
+# [x... if x.startswith("Dr."): Eger gezdigin ifadelerin basinda "Dr." ifadesi varsa bunu sec(x)
 
 
-# Dr'a gore groupby alip, survived'in ortalamasina bakarsak;
+# Dr.'a gore groupby alip, survived'in ortalamasina bakarsak;
 df.groupby("NEW_NAME_DR").agg({"Survived": "mean"})
-# Dr olanlarin hayatta kalma oranlari daha yuksek cikti.
+# Dr. olanlarin hayatta kalma oranlari daha yuksek cikti.
 
 # Kategorik degiskenin frekasnlarini da gormek icin;
 df.groupby("NEW_NAME_DR").agg({"Survived": ["mean", "count"]})
 df.loc[df["NEW_NAME_DR"]] == 1
-# Dr olanlar 10 taneymis.
 
 
 
@@ -224,7 +224,8 @@ dff.head()              # Veri setinde bir kursa yapilan puanlamalar var.
 dff.info()
 
 
-# Timestamp degiskeninin tipi object. Once onun tipini donusturelim (to_datetime ile);
+# Timestamp degiskeninin tipi object. Once onun tipini donusturelim (pd.to_datetime ile);
+# "pd.to_datetime ": String olan ifadeyi pandastaki datetime'a cevirir.
 dff['Timestamp'] = pd.to_datetime(dff["Timestamp"], format="%Y-%m-%d")
 # Uzerinden degisken uretecegim timestamp degiskeninin tipi datetime64[ns] formatina donusmus oldu.
 
@@ -274,22 +275,22 @@ df["NEW_AGE_PCLASS"] = df["Age"] * df["Pclass"]         # Yasi kucuk ya da buyuk
 df["NEW_FAMILY_SIZE"] = df["SibSp"] + df["Parch"] + 1   # Ailedeki kisi sayisi adinda yeni bir degisken uretmis oluruz.
 
 # Erkek olup yasi 21'e kucuk esit olanlar icin yeni bir degisken ('youngmale') uretirsek;
-df.loc[(df['SEX'] == 'male') & (df['Age'] <= 21), 'NEW_SEX_CAT'] = 'youngmale'
+df.loc[(df['Sex'] == 'male') & (df['Age'] <= 21), 'NEW_SEX_CAT'] = 'youngmale'
 
 # Erkek olup yasi 21 ile 50 arasinda olanlar icin yeni bir degisken ('maturemale': olgun erkek) uretirsek;
-df.loc[(df['SEX'] == 'male') & (df['Age'] > 21) & (df['Age'] < 50), 'NEW_SEX_CAT'] = 'maturemale'
+df.loc[(df['Sex'] == 'male') & (df['Age'] > 21) & (df['Age'] < 50), 'NEW_SEX_CAT'] = 'maturemale'
 
 # Erkek olup yasi 50'den buyuk esit olanlar icin yeni bir degisken ('seniormale': daha olgun erkek) uretirsek;
-df.loc[(df['SEX'] == 'male') & (df['Age'] >= 50), 'NEW_SEX_CAT'] = 'seniormale'
+df.loc[(df['Sex'] == 'male') & (df['Age'] >= 50), 'NEW_SEX_CAT'] = 'seniormale'
 
 # Kadin olup yasi 21'e kucuk esit olanlar icin yeni bir degisken ('youngfemale') uretirsek;
-df.loc[(df['SEX'] == 'female') & (df['Age'] <= 21), 'NEW_SEX_CAT'] = 'youngfemale'
+df.loc[(df['Sex'] == 'female') & (df['Age'] <= 21), 'NEW_SEX_CAT'] = 'youngfemale'
 
 # Kadin olup yasi 50'den buyuk esit olanlar icin yeni bir degisken ('seniorfemale' uretirsek;
-df.loc[(df['SEX'] == 'female') & (df['Age'] > 21) & (df['Age'] < 50), 'NEW_SEX_CAT'] = 'maturefemale'
+df.loc[(df['Sex'] == 'female') & (df['Age'] > 21) & (df['Age'] < 50), 'NEW_SEX_CAT'] = 'maturefemale'
 
 # Kadin olup yasi 50'den buyuk esit olanlar icin yeni bir degisken ('seniorfemale' uretirsek;
-df.loc[(df['SEX'] == 'female') & (df['Age'] >= 50), 'NEW_SEX_CAT'] = 'seniorfemale'
+df.loc[(df['Sex'] == 'female') & (df['Age'] >= 50), 'NEW_SEX_CAT'] = 'seniorfemale'
 
 
 df.head()                                               # 'NEW_SEX_CAT' yeni degiskenim geldi.
