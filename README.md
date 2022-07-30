@@ -29,4 +29,4 @@ FEATURE ENGINEERING (Ozellik Muhendisligi);
         -Feature Extraction (Ozellik Cikarimi)
         -Feature Interactions (Özellik Etkilesimleri) 
 
-konulari detayli aciklamalarla calisilmistir ve veri seti, makine ogrenmesi modelinde islenmeye uygun hale gelmistir. :)
+konulari detayli aciklamalarla calisilmistir ve veri seti, makine ogrenmesi modelinde islenmeye uygun hale getirilmistir. :)
