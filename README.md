@@ -1,6 +1,6 @@
 ML-bootcamp-part-III kapsaminda;
 
-Kesifci Veri analizi basligi altinda;
+Kesifci Veri Analizi basligi altinda;
 
         - Veriye Genel Bakis
 
