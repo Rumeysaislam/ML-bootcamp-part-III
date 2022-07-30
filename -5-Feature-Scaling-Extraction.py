@@ -50,7 +50,7 @@ df.describe().T
 
 
 
-### MinMaxScaler: Verilen 2 deger arasında degisken donusumu
+### MinMaxScaler: Verilen 2 deger arasinda degisken donusumu
 
 # X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
 # X_scaled = X_std * (max - min) + min
