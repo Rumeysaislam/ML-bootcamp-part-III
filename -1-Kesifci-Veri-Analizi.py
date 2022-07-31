@@ -318,10 +318,10 @@ def grab_col_names(dataframe, cat_th=10,  car_th=20): # Bir deg. sayisal olsa da
     # cat_cols, cat_but_car
     cat_cols = [col for col in dataframe.columns if str(dataframe[col].dtypes) in ["category", "object", "bool"]]
 
-    num_but_cat = [col for col in dataframe.columns if dataframe[col].nunique() < 10 and dataframe[col].dtypes in ["int", "float"]]
+    num_but_cat = [col for col in dataframe.columns if dataframe[col].nunique() < cat_th and dataframe[col].dtypes in ["int", "float"]]
 
     cat_but_car = [col for col in dataframe.columns if
-                   dataframe[col].nunique() > 20 and str(dataframe[col].dtypes) in ["category", "object"]]
+                   dataframe[col].nunique() > car_th and str(dataframe[col].dtypes) in ["category", "object"]]
 
     cat_cols = cat_cols + num_but_cat
     cat_cols = [col for col in cat_cols if col not in cat_but_car]      # Kategorik degiskenleri olusturdugumuz kesim burada bitti.
@@ -466,10 +466,10 @@ def grab_col_names(dataframe, cat_th=10,  car_th=20):
     # cat_cols, cat_but_car
     cat_cols = [col for col in df.columns if str(df[col].dtypes) in ["category", "object", "bool"]]
 
-    num_but_cat = [col for col in df.columns if df[col].nunique() < 10 and df[col].dtypes in ["int", "float"]]
+    num_but_cat = [col for col in df.columns if df[col].nunique() < cat_th and df[col].dtypes in ["int", "float"]]
 
     cat_but_car = [col for col in df.columns if
-                   df[col].nunique() > 20 and str(df[col].dtypes) in ["category", "object"]]
+                   df[col].nunique() > car_th and str(df[col].dtypes) in ["category", "object"]]
 
     cat_cols = cat_cols + num_but_cat
     cat_cols = [col for col in cat_cols if col not in cat_but_car]
