@@ -30,7 +30,7 @@ df.isnull().sum()               # Veri setindeki butun degiskenlerdeki eksik deg
 def check_df(dataframe, head=5):    # "head" metodunu burada bicimlendirmek istiyoruz.
     print("##################### Shape #####################")
     print(dataframe.shape)
-    check_df()                      # Boyut bilgisi geldi.
+    check_df()                      # Boyut bilgisi 
 
     print("##################### Types #####################")
     print(dataframe.dtypes)         # Tip sorgulamasi
