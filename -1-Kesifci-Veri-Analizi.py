@@ -27,7 +27,7 @@ df.isnull().values.any()        # Eksik deger var mi?
 df.isnull().sum()               # Veri setindeki butun degiskenlerdeki eksik degerlerin sayisini verir.
 
 # Bazi metodlari fonksiyon olarak tanimlayacagiz; (Degisiklikler veri setine nasil yansidi gormek istiyoruz.)
-def check_df(dataframe, head=5):    # "head" metodunu burada bicimlendirmek istiyorum.
+def check_df(dataframe, head=5):    # "head" metodunu burada bicimlendirmek istiyoruz.
     print("##################### Shape #####################")
     print(dataframe.shape)
     check_df()                      # Boyut bilgisi geldi.
@@ -77,7 +77,7 @@ df["sex"].unique()                  # Bir baska degiskenin unique degerleri
 df["class"].nunique()               # Degisken icerisinde toplamda kac tane essiz deger var?
 
 
-# Veri setinde olasi butun kateogrik degiskenleri secmek istiyorum;
+# Veri setinde olasi butun kateogrik degiskenleri secmek istiyoruz;
 # Tipten hareketle (olasi) kategorik degiskenlerimiz; "category", "object", "bool"
 cat_cols = [col for col in df.columns if str(df[col].dtypes) in ["category", "object", "bool"]]
 
@@ -157,7 +157,7 @@ for col in cat_cols:
 # Tip bilgisi "bool" olanları yazdirdik ama isleme sokmadik, digerlerinin grafigini cizdirmis olduk.
 
 
-df["adult_male"].astype(int) # ilgili degiskeni secip kullandigim fonksiyonumun kabul edecegi bir formata cevirdim.
+df["adult_male"].astype(int) # ilgili degiskeni secip kullandigimiz fonksiyonumun kabul edecegi bir formata cevirdik.
 # True gordugu yerlere:1 , digerlerine : 0 koydu; degiskeni cevirmis olduk.
 
 
@@ -172,7 +172,7 @@ for col in cat_cols:
 
 
 # Yapiyi karmasiklastirip yapmak istersek;
-# if-else sorgusu yapalim ve saglanmasi ve saglanmamasi durumuna gore iceride bicimlendirecegiz. Ornek olarak yapıyoruz;
+# if-else sorgusu yapip ve saglanmasi ve saglanmamasi durumuna gore iceride bicimlendirecegiz;
 def cat_summary(dataframe, col_name, plot=False):
 
     if dataframe[col_name].dtypes == "bool":
@@ -342,7 +342,7 @@ def grab_col_names(dataframe, cat_th=10,  car_th=20): # Bir deg. sayisal olsa da
 #num_but_cols zaten num_cols icerisinde
 
 grab_col_names(df)
-cat_cols, num_cols, cat_but_car = grab_col_names(df)                    # Ciktiyi tutmak icin atama yapiyorum.
+cat_cols, num_cols, cat_but_car = grab_col_names(df)                    # Ciktiyi tutmak icin atama yapiyoruz.
 # Hem raporu hem degiskenleri almis olduk.
 
 # Ogrendiklerimizi toparlayacak olursak;
@@ -377,7 +377,7 @@ for col in num_cols:
 
 # BONUS (cat_summary'i plot ozelligi ile bicimlendirilecek sekilde rahatca kullanacagimiz bir yol ele alıyoruz;)
 
-df = sns.load_dataset("titanic")                                       # Veri setini bastan okutuyorum
+df = sns.load_dataset("titanic")                                       # Veri setini bastan okutuyoruz
 df.info()
 
 # bool tipteki degiskenleri donusturuyoruz (int'e ceviriyoruz);
@@ -559,7 +559,7 @@ df.head()
 # Amacimiz elimize bir veri seti geldiginde bunu "isi haritası" araciligiyla korelasyonlarina bakmak.
 #  ve daha sonra yuksek korelasyonlu bir degisken setindeki yuksek korelasyonlu degiskenlerden bazilarini disarida birakabilmek.
 
-# Num. degiskenleri sececek basit bir list comph. yapisi olusturuyorum;
+# Num. degiskenleri sececek basit bir list comph. yapisi olusturuyoruz;
 num_cols = [col for col in df.columns if df[col].dtype in [int, float]]     # Veri setindeki sayisal degiskenleri sectik
 
 corr = df[num_cols].corr()
@@ -586,7 +586,7 @@ plt.show()
 
 
 
-# Korelasyonun pozitif veya negatif olmasiyla ilgilenmiyorum; hepsini mutlak deger fonksiyonundan "abs()" gecirip pozitif hale getiriyorum.
+# Korelasyonun pozitif veya negatif olmasiyla ilgilenmiyoruz; hepsini mutlak deger fonksiyonundan "abs()" gecirip pozitif hale getiriyoruz.
 # Bir sebebi daha yazacagimiz fonksiyonlarda daha kolay islem yapmak icin.
 cor_matrix = df.corr().abs()
 
@@ -597,7 +597,7 @@ cor_matrix = df.corr().abs()
 # 2  0.871754  0.428440  1.000000  0.962865
 # 3  0.817941  0.366126  0.962865  1.000000
 
-# Bu matriste gereksiz elemanlar var. Gereksiz elemanlari sildigimde elde edecegim yapi;
+# Bu matriste gereksiz elemanlar var. Gereksiz elemanlari sildigimde elde edecegimiz yapi;
 
 #     0        1         2         3
 # 0 NaN  0.11757  0.871754  0.817941
@@ -626,7 +626,7 @@ df.shape                         # Kontrol amacli baktik; 10 tane degisken gitmi
 
 # Bu islemleri fonksiyonlastirirsak;
 def high_correlated_cols(dataframe, plot=False, corr_th=0.90):                                                  # corr_th=0.90 korelasyon degerinin esik degerini belirledik.
-# plot=False: ısı haritasını bir opsiyon olarak ekledim ama on tanımlı degerisini false yaptım.
+# plot=False: ısı haritasını bir opsiyon olarak ekledik ama on tanımlı degerisini false yaptım.
     corr = dataframe.corr()                                                                                     # Korelasyon olusturduk.
     cor_matrix = corr.abs()                                                                                     # Mutlak degerini aldik.
     upper_triangle_matrix = cor_matrix.where(np.triu(np.ones(cor_matrix.shape), k=1).astype(bool))              # Kosegen elemanlarina gore bir duzeltme islemi yaptik.
@@ -640,8 +640,8 @@ def high_correlated_cols(dataframe, plot=False, corr_th=0.90):                  
     return drop_list
 
 
-high_correlated_cols(df)                                    # df adini fonksiyona girdigimde drop etmem gereken degiskenlerin listesini bana verecek.
-drop_list = high_correlated_cols(df)                        # Kaydettim.
+high_correlated_cols(df)                                    # df adini fonksiyona girdigimizde drop etmem gereken degiskenlerin listesini bana verecek.
+drop_list = high_correlated_cols(df)                        # Kaydettik.
 drop_list = high_correlated_cols(df, plot=True)             # Gorsel
 df.drop(drop_list, axis=1)                                  # Silme islemi yaptik.
 high_correlated_cols(df.drop(drop_list, axis=1), plot=True) # Silinmis halini fonksiyona gonderdik.
