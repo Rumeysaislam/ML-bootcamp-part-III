@@ -22,7 +22,7 @@ def grab_col_names(dataframe, cat_th=10, car_th=20): # "cat_th=10, car_th=20" ; 
 # Bir degisken sayisal olsa dahi 10'dan az sinifa sahip ise bu degisken benim icin kategoriktir; "cat_th=10"
 # Yorumu; İlgili degiskendeki essiz deger sayisi, belirledigim threshold (esik) sayisindan kucukse ve degiskenin tipi de object degilse, numerik olarak saklanan kategorik degiskenleri yakala... :)
 
- # "car_th=20" : kardinal threshold degerim; Kategorik degiskenimin 20'den fazla (essiz) sinifi varsa kategorik gibi gozukup kardinaldir (olculebilirligi yoktur; gozlem sayisi kadar sinifi varsa zaten yorumlayamam.). :)
+ # "car_th=20" : kardinal threshold degerimiz; Kategorik degiskenimin 20'den fazla (essiz) sinifi varsa kategorik gibi gozukup kardinaldir (olculebilirligi yoktur; gozlem sayisi kadar sinifi varsa zaten yorumlayamayiz.). :)
     """
 
     Veri setindeki kategorik, numerik ve kategorik fakat kardinal ( Kategorik gorunumlu olup bilgi tasimayan; olcum degeri olmayan) değişkenlerin isimlerini verir.
@@ -63,18 +63,18 @@ def grab_col_names(dataframe, cat_th=10, car_th=20): # "cat_th=10, car_th=20" ; 
 
     # cat_cols, cat_but_car
     cat_cols = [col for col in dataframe.columns if dataframe[col].dtypes == "O"] # kategorik degiskenleri sectik
-    num_but_cat = [col for col in dataframe.columns if dataframe[col].nunique() < cat_th and dataframe[col].dtypes != "O"] # kategorik olan ama numerik gozuken degiskenleri de sectik
+    num_but_cat = [col for col in dataframe.columns if dataframe[col].nunique() < cat_th and dataframe[col].dtypes != "O"] # kategorik olan ama numerik gozuken degiskenleri de sectik.
 
     cat_but_car = [col for col in dataframe.columns if dataframe[col].nunique() > car_th and dataframe[col].dtypes == "O"] # kategorik gorunen ama kardinal olan degiskenler
 
     cat_cols = cat_cols + num_but_cat # cat_cols listemizi bastan olusturuyoruz. Numerik gorunumlu kategorikleri de ekledik.
-    cat_cols = [col for col in cat_cols if col not in cat_but_car] # cat_cols'un icinde kardinalitesi yuksek olanları da cikardim.
+    cat_cols = [col for col in cat_cols if col not in cat_but_car] # cat_cols'un icinde kardinalitesi yuksek olanları da cikardik.
 # Sonuc olarak; cat_cols: Kategorik olanlar + Numerik gozukup kategorik olanlar - Kategorik gorunen ama kardinal olanlar
 
 
     # num_cols
     num_cols = [col for col in dataframe.columns if dataframe[col].dtypes != "O"] # Tipi object olmayanlar; int veya float olanlar gelecek
-    num_cols = [col for col in num_cols if col not in num_but_cat] # Numerik olup kategorik olarak gozukenleri cikardim.
+    num_cols = [col for col in num_cols if col not in num_but_cat] # Numerik olup kategorik olarak gozukenleri cikardik.
 # num_cols = Tipi object olmayanlar(int - float) - Numerik gozuken ama kategorik olan
 
     print(f"Observations: {dataframe.shape[0]}")
@@ -158,7 +158,7 @@ missing_values_table(df, True)                                              # Ek
 missing_values_table(df)                                                    # Eksik degerlerimiz
 
 # Agac modellerinde aykirikliklar ve eksik degerlerin etkisi yoka yakindir. Gozardi etmek mantiklidir.
-# İstisna: Regresyon problemi ile ilgileniyorsak, bagimli degisken sayisal bir degiskense ve orada aykirilik olmasi durumunda, sonuca gitme suresi (optimizasyon islemlerinin suresi) uzayabilir.
+# Istisna: Regresyon problemi ile ilgileniyorsak, bagimli degisken sayisal bir degiskense ve orada aykirilik olmasi durumunda, sonuca gitme suresi (optimizasyon islemlerinin suresi) uzayabilir.
 
 
 
@@ -193,7 +193,7 @@ df["Age"].fillna(0).isnull().sum()
 # apply ile yapmak istersek;
 
 # df.apply(lambda x: x.fillna(x.mean()), axis=0)
-# apply'in "satirlara gore" ama "sutun bazinda" gitmesini sectik (axis=0)
+# apply'in "satirlara gore" ama "sutun bazinda" gitmesini sectik (axis=0).
 # Kod hata verir. Cunku; kategorik degiskenler var ve bunlarin ortalamasini alamaz. :)
 
 # !!! Sayisal degiskenleri ortalaması ile doldurmak icin;
@@ -206,7 +206,7 @@ dff = df.apply(lambda x: x.fillna(x.mean()) if x.dtype != "O" else x, axis=0)   
 # Eksik degere gore siralarsak;
 dff.isnull().sum().sort_values(ascending=False)
 
-# Kategorik degiskenler icin en mantikli doldurma yontemi; modunu (en cok tekrar eden) almaktır.
+# Kategorik degiskenler icin en mantikli doldurma yontemi; modunu (en cok tekrar eden) almaktir.
 df["Embarked"].mode()[0]
 # mode()[0] : Modun string karsiligina yani values'una erismek icin
 df["Embarked"].fillna(df["Embarked"].mode()[0])
@@ -311,7 +311,7 @@ dff = pd.DataFrame(imputer.fit_transform(dff), columns=dff.columns)     # impute
 dff.head()
 
 # Doldurdugum yerleri gormek istiyorum;
-dff = pd.DataFrame(scaler.inverse_transform(dff), columns=dff.columns)  # Geri donusturme islemi yapiyorum
+dff = pd.DataFrame(scaler.inverse_transform(dff), columns=dff.columns)  # Geri donusturme islemi yapiyoruz
 dff.head()
 
 # Kiyaslama yapmak icin atamalari gorup karsilastirma yapmam lazim;
@@ -320,7 +320,7 @@ df["age_imputed_knn"] = dff[["Age"]]                                    # dff ic
                                                                         # Artık ilk dataframe'mde hem "age" hem de "age_imputed_knn" var.
 
 df.loc[df["Age"].isnull(), ["Age", "age_imputed_knn"]]                  # ilk degiskenimde "Age" deki eksik degerleri satirlardan sec ve bu iki degiskeni (["Age", "age_imputed_knn"]) getir.
-df.loc[df["Age"].isnull()]                                              # Tum degiskenlerdeki atamalari detayli gormek istersem.
+df.loc[df["Age"].isnull()]                                              # Tum degiskenlerdeki atamalari detayli gormek istersek.
 
 # Eksik degerler yerine tahmin edilen degerleri atamis oldum.
 
