@@ -241,17 +241,17 @@ for col in num_cols:
 
 # Aykiri Degerlerin Kendilerine Erismek;
 
-# Aykiri degelere erisirken istersem index bilgisini de veren bir fonksiyon "grab_outliers" tanimlarsam;
+# Aykiri degelere erisirken istersem index bilgisini de veren bir fonksiyon "grab_outliers" tanimlarsak;
 def grab_outliers(dataframe, col_name, index=False):        # On tanimli olarak simdilik index bilgilerini istemiyoruz (index=False). Ayrica head() argüman olarak verilebilirdi.
     low, up = outlier_thresholds(dataframe, col_name)       # outlier_thresholds'u cagirdik yardim icin :D
 
-    if dataframe[((dataframe[col_name] < low) | (dataframe[col_name] > up))].shape[0] > 10:                             # Aykiri deger sayisi 10'dan buyukse bize head() atsin(ilk bes degeri gostersin).
+    if dataframe[((dataframe[col_name] < low) | (dataframe[col_name] > up))].shape[0] > 10:                     # Aykiri deger sayisi 10'dan buyukse bize head() atsin(ilk bes degeri gostersin).
 # shape[0]: gozlem sayisi, shape[1]: degisken sayisi
         print(dataframe[((dataframe[col_name] < low) | (dataframe[col_name] > up))].head())
     else:
-        print(dataframe[((dataframe[col_name] < low) | (dataframe[col_name] > up))]) # Degilse hepsini gostersin.
+        print(dataframe[((dataframe[col_name] < low) | (dataframe[col_name] > up))])                            # Degilse hepsini gostersin.
 
-    if index:                                               # index argumani True ise indexleri return et;
+    if index:                                                                                                   # index argumani True ise indexleri return et;
         outlier_index = dataframe[((dataframe[col_name] < low) | (dataframe[col_name] > up))].index
         return outlier_index
 
@@ -259,7 +259,7 @@ grab_outliers(df, "Age")                                    # Demek ki 10'dan fa
 
 grab_outliers(df, "Age", True)                              # Index bilgisini de istersek; index argumanini True yapariz.
 
-# İndex bilgilerini daha sonra kullanmak icin saklamak istersem;
+# İndex bilgilerini daha sonra kullanmak icin saklamak istersek;
 age_index = grab_outliers(df, "Age", True)
 
 
@@ -294,7 +294,7 @@ df.shape # 891 gozlem oldugunu gorduk.
 
 # (PassengerID num_cols icerisinden daha once silinmmisti.)
 for col in num_cols:                                        # Numerik kolonlarda gezdik.
-    new_df = remove_outlier(df, col)                        # Kalici degisiklik yapmak istemedigim icin sonucu yeni dataframe olarak atadim.
+    new_df = remove_outlier(df, col)                        # Kalici degisiklik yapmak istemedigim icin sonucu yeni dataframe olarak atadik.
 
 print(df.shape[0], new_df.shape[0])
 df.shape[0] - new_df.shape[0]                               # Gozlem sayilarinda kac tane degisiklik oldugunu gordum; 116 tane gozlem silinmis.
@@ -394,10 +394,10 @@ df[((df["depth"] < low) | (df["depth"] > up))].shape        # "depth" degiskenin
 # % 25 - % 75 olarak alırsak esik degerlerini ne kadar veri kaybedebilecegimizi, doldurursak da gurultu olusturabilecegimizi anlamis olduk.
 
 clf = LocalOutlierFactor(n_neighbors=20)                    # Komsuluk sayisi 20 olacak sekilde (on tanimli deger) LocalOutlierFactor metodunu getirdik.
-clf.fit_predict(df)                                         # Yontemi df'me uyguladim. Local outlier skorlarimi hesapladim.
+clf.fit_predict(df)                                         # Yontemi df'me uyguladim. Local outlier skorlarimi hesapladik.
 
 
-df_scores = clf.negative_outlier_factor_                    # Takip edilebilirlik acisindan Local outlier skorlarima atama yaptim.
+df_scores = clf.negative_outlier_factor_                    # Takip edilebilirlik acisindan Local outlier skorlarima atama yaptik.
 df_scores[0:5]                                              # 5 tanesini gormek istedim.
 # df_scores = -df_scores                                    # Bu sekilde eksi degerleri pozitife cevirmis oluruz.
                                                             # Okunabilirlik acisindan negatif biraktik. (Bu durumda -1'e yakin olmasi durumunu degerlendirecegiz.)
@@ -409,7 +409,7 @@ scores = pd.DataFrame(np.sort(df_scores))
 scores.plot(stacked=True, xlim=[0, 20], style='.-')         # xlim=[0, 20] : 20 tane gozlem (x-eksenim)
 plt.show(block=True)
                                                             # Her bir nokta (y-eksenindeki) esik deger, bu esik degerlere gore grafik olusturulmus.
-                                                            # Esik degerleri incelendiginde en dik egim degisimi bariz olan nokta; en marjinal degisikligin old. noktadir. Bu noktayi esik deger olarak belirleyebilirim.
+                                                            # Esik degerleri incelendiginde en dik egim degisimi bariz olan nokta; en marjinal degisikligin old. noktadir. Bu noktayi esik deger olarak belirleyebiliriz.
                                                             # Dik egim noktasindan sonraki degisimlerin kucuk old. bilgisi var. (Dirsek yontemiyle belirlemis olduk :D)
 
 scores = pd.DataFrame(np.sort(df_scores))
