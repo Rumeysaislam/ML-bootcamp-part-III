@@ -32,7 +32,7 @@ df = load()
 
 df = load()                                                     # Titanic veri setini getirdik.
 ss = StandardScaler()                                           # StandardScaler nesnemizi getirdik.
-df["Age_standard_scaler"] = ss.fit_transform(df[["Age"]])       # Nesnemizi yas degiskenine uygulayalim ama uyguladiktan sonra kiyaslama yapabilmek icin df icerisine "Age_standard_scaler" adiyla bunu kaydedelim.
+df["Age_standard_scaler"] = ss.fit_transform(df[["Age"]])       # Nesnemizi yas degiskenine uygulayalim ama uyguladiktan sonra kiyaslama yapabilmek icin df icerisine "Age_standard_scaler" adiyla bunu kaydettik.
 df.head()
 
 
@@ -125,7 +125,7 @@ df["NEW_CABIN_BOOL"] = df["Cabin"].notnull().astype('int') # notnull() ile "dolu
 df.groupby("NEW_CABIN_BOOL").agg({"Survived": "mean"})
 # Kabini dolu olanlarin orani (0,667) hayatta kalma orani, bos olanlara gore (0,300) daha yuksek.
 
-# Bu farklilik kayda deger mi, anlamak istiyorum, bunun icin iki grubun oranini kiyaslama testi yaparsam;
+# Bu farklilik kayda deger mi, anlamak istiyorum, bunun icin iki grubun oranini kiyaslama testi yaparsak;
 from statsmodels.stats.proportion import proportions_ztest
 
 test_stat, pvalue = proportions_ztest(count=[df.loc[df["NEW_CABIN_BOOL"] == 1, "Survived"].sum(),           # Kabin numarasi olup hayatta kalan kac kisi var?
@@ -138,7 +138,7 @@ print('Test Stat = %.4f, p-value = %.4f' % (test_stat, pvalue))          # Test 
 
 # Ho: İkisi arasinda fark yoktur. (Ho, ya reddedilir ya reddedilmez; kabul edilme durumu yoktur!)
 # p-value degeri 0,05'den kucuk oldugundan dolayi Ho reddedilir. Yani aralarinda istatistiki olarak anlamli bir fark vardir.
-# Cok degiskenli etkiyi bilmedigimden; cabin degiskeni benim icin cok onemlidir genellemesini yapamiyorum.
+# Cok degiskenli etkiyi bilmedigimizden; cabin degiskeni benim icin cok onemlidir genellemesini yapamiyoruz.
 
 # 'SibSp' ve 'Parch': Gemideki akrabaliklari ifade eden degiskenler;
 df.loc[((df['SibSp'] + df['Parch']) > 0), "NEW_IS_ALONE"] = "NO"        # Bunlarin toplami eger 0'dan buyukse yeni bir degisken olustur ve yeni degiskende bir sinif olusturup deger ("NO") ata.
@@ -231,11 +231,11 @@ dff['Timestamp'] = pd.to_datetime(dff["Timestamp"], format="%Y-%m-%d")
 
 
 # year degiskeni turetmek istersem;
-dff['year'] = dff['Timestamp'].dt.year # Yillari cektim
+dff['year'] = dff['Timestamp'].dt.year          # Yillari cektik
 
 
 # month degiskeni turetmek istersem;
-dff['month'] = dff['Timestamp'].dt.month # Aylari cektim
+dff['month'] = dff['Timestamp'].dt.month        # Aylari cektik
 
 
 # year diff; Bugunku yil ile veri setindeki yillarin farkini almak istersek;
@@ -269,7 +269,7 @@ df = load()                                             # Titanic veri setini el
 df.head()
 
 # Yas degiskeni ile Pclass'i carpmak istersek;
-df["NEW_AGE_PCLASS"] = df["Age"] * df["Pclass"]         # Yasi kucuk ya da buyuk olanlarin yolculuk siniflarina gore refah durumlariyla ilgili durum ortaya cikartmis olabilirz.
+df["NEW_AGE_PCLASS"] = df["Age"] * df["Pclass"]         # Yasi kucuk ya da buyuk olanlarin yolculuk siniflarina gore refah durumlariyla ilgili durum ortaya cikartmis olabiliriz.
 
 # Akrabalik iliskileri toplamı + kisinin kendisi(1) dersek;
 df["NEW_FAMILY_SIZE"] = df["SibSp"] + df["Parch"] + 1   # Ailedeki kisi sayisi adinda yeni bir degisken uretmis oluruz.
