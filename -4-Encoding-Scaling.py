@@ -75,19 +75,19 @@ def grab_col_names(dataframe, cat_th=10, car_th=20): # "cat_th=10, car_th=20" ; 
     """
 
     # cat_cols, cat_but_car
-    cat_cols = [col for col in dataframe.columns if dataframe[col].dtypes == "O"] # kategorik degiskenleri sectik
-    num_but_cat = [col for col in dataframe.columns if dataframe[col].nunique() < cat_th and dataframe[col].dtypes != "O"] # kategorik olan ama numerik gozuken degiskenleri de sectik
+    cat_cols = [col for col in dataframe.columns if dataframe[col].dtypes == "O"] # kategorik degiskenleri sectik.
+    num_but_cat = [col for col in dataframe.columns if dataframe[col].nunique() < cat_th and dataframe[col].dtypes != "O"]  # kategorik olan ama numerik gozuken degiskenleri de sectik
 
-    cat_but_car = [col for col in dataframe.columns if dataframe[col].nunique() > car_th and dataframe[col].dtypes == "O"] # kategorik gorunen ama kardinal olan degiskenler
+    cat_but_car = [col for col in dataframe.columns if dataframe[col].nunique() > car_th and dataframe[col].dtypes == "O"]  # kategorik gorunen ama kardinal olan degiskenler
 
     cat_cols = cat_cols + num_but_cat # cat_cols listemizi bastan olusturuyoruz. Numerik gorunumlu kategorikleri de ekledik.
-    cat_cols = [col for col in cat_cols if col not in cat_but_car] # cat_cols'un icinde kardinalitesi yuksek olanları da cikardim.
+    cat_cols = [col for col in cat_cols if col not in cat_but_car] # cat_cols'un icinde kardinalitesi yuksek olanları da cikardik.
 # Sonuc olarak; cat_cols: Kategorik olanlar + Numerik gozukup kategorik olanlar - Kategorik gorunen ama kardinal olanlar
 
 
     # num_cols
-    num_cols = [col for col in dataframe.columns if dataframe[col].dtypes != "O"] # Tipi object olmayanlar; int veya float olanlar gelecek
-    num_cols = [col for col in num_cols if col not in num_but_cat] # Numerik olup kategorik olarak gozukenleri cikardim.
+    num_cols = [col for col in dataframe.columns if dataframe[col].dtypes != "O"]       # Tipi object olmayanlar; int veya float olanlar gelecek
+    num_cols = [col for col in num_cols if col not in num_but_cat]                      # Numerik olup kategorik olarak gozukenleri cikardik.
 # num_cols = Tipi object olmayanlar(int - float) - Numerik gozuken ama kategorik olan
 
 
@@ -112,11 +112,11 @@ le.fit_transform(df["Sex"])[0:5]                # Cinsiyet degiskenini "fit" ile
 # Alfabetik siraya gore ilk gordugu degere 0 degerini, ikincisini de 1 degeri verir.
 
 # Hangisinin 0 veya 1 oldugunu ogrenmek icin;
-le.inverse_transform([0, 1]) # "female, male"
+le.inverse_transform([0, 1])                    # "female, male"
 
 
 # Label encoder icin fonk. yazmak istersek;
-def label_encoder(dataframe, binary_col):      # binaary_col: iki sinifli bir degisken
+def label_encoder(dataframe, binary_col):       # binaary_col: iki sinifli bir degisken
     labelencoder = LabelEncoder()
     dataframe[binary_col] = labelencoder.fit_transform(dataframe[binary_col])
     return dataframe
@@ -125,7 +125,7 @@ df = load()
 
 # Amacimiz olceklenebilir olmak; yani yüzlerce degiskenim old. ne yapacagim;
 
-# Iki sinifli kategorik degiskenleri (essiz sinif sayisi 2 olan int ve float olmayan) sececegim;
+# Iki sinifli kategorik degiskenleri (essiz sinif sayisi 2 olan int ve float olmayan) sececegiz;
 binary_cols = [col for col in df.columns if df[col].dtype not in [int, float] and df[col].nunique() == 2]
 # len.unique() yapamazdik. Yapsaydik; len 3 cikardi, eksik degerleri de sayacagi icin.
 # "nunique": essiz degeri bir sinif olarak gormez.
@@ -148,9 +148,9 @@ df.shape
 binary_cols = [col for col in df.columns if df[col].dtype not in [int, float]
                and df[col].nunique() == 2]
 
-df[binary_cols].head()                         # Degiskenleri veri setinden sectim.
+df[binary_cols].head()                         # Degiskenleri veri setinden sectikk.
 # EMERGENCYSTATE_MODE degiskeninde 2'ler var. Eksik degerlere 2 verilmis.
-# Yani eksik degerler de doldurulmus. Eksik degerleri boyle doldurmak yaygin olarak tercih edilebiliyor ya da projenin onceki asamalarinda eksik verilerden kurtulmus oluyoruz zaten :)
+# Yani eksik degerler de doldurulmus. Eksik degerleri boyle doldurmak yaygin olarak tercih edilebiliyor ya da projenin onceki asamalarinda eksik verilerden kurtulmus oluyoruz zaten. :)
 
 
 
@@ -253,8 +253,8 @@ df["NAME_EDUCATION_TYPE"].value_counts()                                        
 cat_cols, num_cols, cat_but_car = grab_col_names(df)
 
 # Kategorik degiskenin siniflarini ve siniflarin oranlarini getirecek fonk. yazmak istersem;
-def cat_summary(dataframe, col_name, plot=False):                              # plot=False: Frekanslari gorsellestirmek istemiyorum.
-    print(pd.DataFrame({col_name: dataframe[col_name].value_counts(),          # Sozluk icerisinde degiskenin ismi ve ilgili degiskenin siniflarinin dagilimi
+def cat_summary(dataframe, col_name, plot=False):                                                       # plot=False: Frekanslari gorsellestirmek istemiyoruz.
+    print(pd.DataFrame({col_name: dataframe[col_name].value_counts(),                                   # Sozluk icerisinde degiskenin ismi ve ilgili degiskenin siniflarinin dagilimi
                         "Ratio": 100 * dataframe[col_name].value_counts() / len(dataframe)}))           # ... siniflarinin butun veride gozlenme orani
     print("##########################################")
     if plot:
@@ -286,7 +286,7 @@ def rare_analyser(dataframe, target, cat_cols):                                 
                             "RATIO": dataframe[col].value_counts() / len(dataframe),                    # Sinif oranlari
                             "TARGET_MEAN": dataframe.groupby(col)[target].mean()}), end="\n\n\n")       # Bagimli degiskene gore groupby islemi
 
-rare_analyser(df, "TARGET", cat_cols)                                                                   # Butun kategorik degiskenler icin "rare" analizimi gerceklestirdim.
+rare_analyser(df, "TARGET", cat_cols)                                                                   # Butun kategorik degiskenler icin "rare" analizimi gerceklestirdik.
 
 # Biz tercihe dayali 0,010 altindaki degerleri bir araya getirecegiz.
 
@@ -308,7 +308,7 @@ def rare_encoder(dataframe, rare_perc):
 
     return temp_df
 
-new_df = rare_encoder(df, 0.01)                                # Verdigim oranin (0,01) altinda kalan kategorik degisken siniflarini bir araya getirecek.
+new_df = rare_encoder(df, 0.01)                                # Verdigimiz oranin (0,01) altinda kalan kategorik degisken siniflarini bir araya getirecek.
 
 rare_analyser(new_df, "TARGET", cat_cols)
 # Orn.; NAME_TYPE_SUITE icerisinde 2907 tane gozlem birimini bir araya getirmis (Rare). ...
