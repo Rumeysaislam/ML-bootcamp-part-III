@@ -244,7 +244,7 @@ df.head()
 # 3. Rare encoder yazacağız. Gereksiz; istege bagli, etkisi olmayan degiskenlerden kurtulmak icin.
 
 
-# Kategorik değişkenlerin azlik çokluk durumunun analiz edilmesi;
+# Kategorik degiskenlerin azlik çokluk durumunun analiz edilmesi;
 
 df = load_application_train()
 df["NAME_EDUCATION_TYPE"].value_counts()                                        # Siniflar ve frekanslarini gorduk. academic_degree cok az. Az olanlari bir araya getirme islemi yapmak istiyoruz.
